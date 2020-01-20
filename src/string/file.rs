@@ -1,5 +1,5 @@
 use std::fs::File;
-use std::io::{ErrorKind, Error, Write, Read};
+use std::io::{ErrorKind, Error, Read};
 
 /// 读取文件内容
 // let match_result = file_get_contents(&"Cargo.toml");
@@ -23,11 +23,48 @@ pub fn file_get_contents(source_name: &str) -> Result<String, Error> {
     match File::open(file_name) {
         Ok(mut f) => {
             let mut content = String::new();
-            f.read_to_string(&mut content);
+            match f.read_to_string(&mut content) {
+                Ok(_)=>{},
+                _ => {
+                    return Err(Error::new(ErrorKind::Other, format!("open file error 1")));
+                },
+            }
             return Ok(content);
-        }
+        },
         Err(err) => {
-            return Err(Error::new(ErrorKind::Other, "open file error"));
+            return Err(Error::new(ErrorKind::Other, format!("open file error: {}", err)));
+        },
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::error::Error;
+
+    #[test]
+    fn test_not_exists_for_file_get_contents_file() {
+        let res = file_get_contents("no_file.txt");
+        match res {
+            Ok(str1)=>{
+                assert!(str1 == "ni".to_string());
+            },
+            Err(err) => {
+                eprintln!("{:#?}", err.description());
+                assert!(format!("{:#?}", err.description()).contains("No such file or directory"));
+            },
+        }
+    }
+
+    #[test]
+    fn test_ok_for_file_get_contents() {
+        let res = file_get_contents("Cargo.toml");
+        match res {
+            Ok(res) => {println!("{}", res)},
+            Err(err) => {
+                println!("{:#?}", err);
+            },
         }
     }
 }
+
