@@ -2,7 +2,7 @@ extern crate chrono;
 
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use chrono::{DateTime};
-use self::chrono::{Utc};
+use self::chrono::{Utc, FixedOffset};
 use self::chrono::offset::TimeZone;
 use chrono::prelude::Local;
 use std::collections::HashMap;
@@ -21,8 +21,11 @@ pub fn microtime() -> u128 {
 pub fn time() -> u128 {
     // SystemTime::now().duration_since(UNIX_EPOCH).unwrap().as_secs() as u128
     let datetime: DateTime<Local> = Local::now();
+    let local_time = DateTime::<Utc>::from_utc(datetime.naive_utc(), Utc);
     // 转换为 Asia/ShangHai 时区
-    datetime.timestamp() as u128 + 8*3600
+    let china_timezone = FixedOffset::east(8*3600);
+    local_time.with_timezone(&china_timezone);
+    local_time.timestamp() as u128
 }
 
 /// 根据时间戳将其格式化为当前的"标准日期时间"格式
