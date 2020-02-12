@@ -7,7 +7,7 @@ use self::chrono::offset::TimeZone;
 use chrono::prelude::Local;
 use std::collections::HashMap;
 
-/// 关于时间的库，可以参考 https://github.com/chronotope/chrono/
+// 关于时间的库，可以参考 https://github.com/chronotope/chrono/
 
 /// 获取微秒级的时间戳
 /// 方法实现参考 https://users.rust-lang.org/t/convert-std-time-systemtime-to-chrono-datetime-datetime/7684

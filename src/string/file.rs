@@ -2,15 +2,15 @@ use std::fs::File;
 use std::io::{ErrorKind, Error, Read};
 
 /// 读取文件内容
-// let match_result = file_get_contents(&"Cargo.toml");
-//    match match_result {
-//        Ok(is_match) => {
-//            println!("{}", is_match);
-//        },
-//        Err(err) => {
-//            eprintln!("{}", err)
-//        }
-//   }
+/// let match_result = file_get_contents(&"Cargo.toml");
+///    match match_result {
+///        Ok(is_match) => {
+///            println!("{}", is_match);
+///        },
+///        Err(err) => {
+///            eprintln!("{}", err)
+///        }
+///   }
 pub fn file_get_contents(source_name: &str) -> Result<String, Error> {
     let str1 = source_name;
     let is_matched_url = str1.contains("http://") || str1.contains("https://");
